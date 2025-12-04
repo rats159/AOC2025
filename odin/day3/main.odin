@@ -14,7 +14,7 @@ TEST :: `987654321111111
 main :: proc() {
 	data, _ := os2.read_entire_file("input.txt", context.allocator)
 	text := string(data)
-
+	
 	now := time.tick_now()
 	p1 := part1(text)
 	fmt.println(time.tick_since(now), p1)
