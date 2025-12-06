@@ -1,7 +1,6 @@
 package day6
 
 import "core:fmt"
-import "core:os"
 import "core:os/os2"
 import "core:strconv"
 import "core:strings"
@@ -25,11 +24,6 @@ main :: proc() {
 	fmt.println(time.tick_since(now), p2)
 }
 
-Operator :: enum {
-	Add,
-	Multiply,
-}
-
 part1 :: proc(data: string) -> int {
 	data := data
 	operators_index := strings.index_any(data, "+*")
@@ -45,16 +39,11 @@ part1 :: proc(data: string) -> int {
 	}
 
 	operators_str := data[operators_index:]
-	operators: [dynamic]Operator
+	operators: [dynamic]byte
 
 	for op in strings.split_iterator(&operators_str, " ") {
 		if op == "" do continue
-		switch op[0] {
-		case '+':
-			append(&operators, Operator.Add)
-		case '*':
-			append(&operators, Operator.Multiply)
-		}
+		append(&operators, op[0])
 	}
 
 	lines := len(nums) / len(operators)
@@ -65,14 +54,14 @@ part1 :: proc(data: string) -> int {
 	for problem in 0 ..< len(operators) {
 		operator := operators[problem]
 
-		total := 0 if operator == .Add else 1
+		total := 0 if operator == '+' else 1
 
 		for n in 0 ..< lines {
 			num := nums[problem + n * problems]
 			switch operator {
-			case .Add:
+			case '+':
 				total += num
-			case .Multiply:
+			case '*':
 				total *= num
 			}
 		}
@@ -117,3 +106,4 @@ part2 :: proc(data: string) -> int {
 	grand_total += total
 	return grand_total
 }
+
